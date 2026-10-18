@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Maison Evora | Official Social Hub</title>
+  
+  <!-- Meta tags for social previews -->
+  <meta name="description" content="Connect with Maison Evora on Facebook, Instagram, YouTube, and TikTok.">
+  <meta property="og:title" content="Maison Evora | Official Social Hub">
+  <meta property="og:description" content="Follow Maison Evora on all official social channels.">
+  <meta property="og:image" content="assets/logo.jpg">
+  <meta name="theme-color" content="#032612">
+
+  <!-- Google Fonts for Luxury Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for official social brand icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #031c0e;
+      --bg-surface: rgba(4, 38, 19, 0.75);
+      --bg-surface-hover: rgba(7, 56, 28, 0.9);
+      --gold-primary: #d4af37;
+      --gold-light: #f7e096;
+      --gold-dark: #aa820a;
+      --text-main: #f9fbf9;
+      --text-muted: #b0c9b9;
+      --accent-glow: rgba(212, 175, 55, 0.25);
+      --border-gold: rgba(212, 175, 55, 0.35);
+      --radius-card: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #08381c 0%, #031a0d 50%, #010d06 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      padding-bottom: 50px;
+    }
+
+    /* Ambient background luxury particles/glow */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(3, 38, 18, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      padding: 0 16px;
+    }
+
+    /* Top Navigation / Action Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 8px;
+      width: 100%;
+    }
+
+    .brand-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 2.5px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-circle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      font-size: 15px;
+    }
+
+    .action-circle-btn:hover, .action-circle-btn:active {
+      background: var(--gold-primary);
+      color: #031c0e;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--accent-glow);
+    }
+
+    /* Profile Header Section */
+    .profile-header {
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      margin-bottom: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .cover-banner {
+      width: 100%;
+      height: 170px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cover-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .profile-header:hover .cover-banner img {
+      transform: scale(1.04);
+    }
+
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(3, 28, 14, 0.1) 0%, rgba(3, 28, 14, 0.9) 100%);
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      margin: -55px auto 12px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark), var(--gold-primary));
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: #031c0e;
+    }
+
+    .verified-badge {
+      position: absolute;
+      bottom: 2px;
+      right: 4px;
+      background: #1877f2;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      border: 2px solid #031c0e;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .profile-info {
+      padding: 0 20px 22px;
+    }
+
+    .profile-name {
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .profile-tagline {
+      color: var(--gold-light);
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .profile-desc {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 380px;
+      margin: 0 auto 16px;
+    }
+
+    .quick-chips {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip i {
+      color: var(--gold-primary);
+    }
+
+    /* Section Label */
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin: 0 0 14px 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.4), transparent);
+    }
+
+    /* Social Links Cards */
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-card);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text-main);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      transition: width 0.25s ease;
+    }
+
+    .link-card.fb::before { background: #1877f2; }
+    .link-card.ig::before { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+    .link-card.yt::before { background: #ff0000; }
+    .link-card.tt::before { background: linear-gradient(135deg, #00f2fe, #fe0979); }
+
+    .link-card:hover, .link-card:active {
+      transform: translateY(-3px) scale(1.01);
+      background: var(--bg-surface-hover);
+      border-color: var(--gold-primary);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+    }
+
+    .link-card:hover::before {
+      width: 6px;
+    }
+
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #ffffff;
+      flex-shrink: 0;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .link-card:hover .icon-box {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .fb .icon-box { background: linear-gradient(135deg, #1877f2, #0d54b4); }
+    .ig .icon-box { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+    .yt .icon-box { background: linear-gradient(135deg, #ff0000, #b30000); }
+    .tt .icon-box { background: #010101; border: 1px solid rgba(255,255,255,0.2); }
+
+    .link-texts h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 2px;
+      letter-spacing: 0.3px;
+    }
+
+    .link-texts p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .link-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      font-size: 13px;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .link-card:hover .link-arrow {
+      background: var(--gold-primary);
+      color: #031c0e;
+      transform: translateX(3px);
+    }
+
+    /* Utility Cards (QR & Scanner shortcuts) */
+    .utility-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .util-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 16px;
+      padding: 14px 12px;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .util-btn i {
+      font-size: 22px;
+      color: var(--gold-light);
+      transition: transform 0.25s ease;
+    }
+
+    .util-btn:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+    }
+
+    .util-btn:hover i {
+      transform: scale(1.15);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding-top: 10px;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .footer-copy {
+      font-size: 11.5px;
+      color: rgba(176, 201, 185, 0.6);
+      letter-spacing: 0.5px;
+    }
+
+    /* Modal / Popups */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #032010;
+      border: 1px solid var(--gold-primary);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 400px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--accent-glow);
+      transform: scale(0.92);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .qr-preview-box {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 18px;
+      display: inline-block;
+      margin: 18px 0;
+      border: 3px solid var(--gold-primary);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .qr-preview-box img {
+      width: 210px;
+      height: 210px;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
+      color: #031c0e;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #d4af37;
+      color: #031c0e;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Top Action Bar -->
+    <header class="top-bar">
+      <div class="brand-badge">
+        <i class="fa-solid fa-gem" style="color: var(--gold-primary);"></i>
+        <span>Maison Evora</span>
+      </div>
+      <div class="top-actions">
+        <button class="action-circle-btn" onclick="openQrModal()" title="View QR Code">
+          <i class="fa-solid fa-qrcode"></i>
+        </button>
+        <button class="action-circle-btn" onclick="shareProfile()" title="Share Page">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
+        <a href="scanner.html" class="action-circle-btn" title="Open QR Scanner">
+          <i class="fa-solid fa-camera"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Profile Card -->
+    <div class="profile-header">
+      <div class="cover-banner">
+        <img src="assets/cover.jpg" alt="Maison Evora Cover" onerror="this.src='840005042_122094012459513373_8374363094693261575_n.jpg'">
+        <div class="cover-overlay"></div>
+      </div>
+
+      <div class="avatar-wrapper">
+        <img src="assets/logo.jpg" alt="Maison Evora Logo" onerror="this.src='839766441_122093932221513373_4620680916063765483_n.jpg'">
+        <div class="verified-badge" title="Official Verified Page">
+          <i class="fa-solid fa-check"></i>
+        </div>
+      </div>
+
+      <div class="profile-info">
+        <h1 class="profile-name">MAISON EVORA</h1>
+        <p class="profile-tagline">LUXURY &bull; ELEGANCE &bull; LIFESTYLE</p>
+        <p class="profile-desc">Welcome to our official digital portal. Explore our latest collections, stories, and exclusive content across all platforms.</p>
+        
+        <div class="quick-chips">
+          <span class="chip"><i class="fa-solid fa-star"></i> Verified Brand</span>
+          <span class="chip"><i class="fa-solid fa-globe"></i> Official Links</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Channels List -->
+    <div class="section-title">Official Social Channels</div>
+    
+    <div class="links-list">
+      
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/profile.php?id=61595401193073" target="_blank" rel="noopener noreferrer" class="link-card fb">
+        <div class="link-left">
+          <div class="icon-box">
+            <i class="fa-brands fa-facebook-f"></i>
+          </div>
+          <div class="link-texts">
+            <h3>Facebook</h3>
+            <p>Official Page &bull; Updates & Events</p>
+          </div>
+        </div>
+        <div class="link-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/maison.evora07" target="_blank" rel="noopener noreferrer" class="link-card ig">
+        <div class="link-left">
+          <div class="icon-box">
+            <i class="fa-brands fa-instagram"></i>
+          </div>
+          <div class="link-texts">
+            <h3>Instagram</h3>
+            <p>@maison.evora07 &bull; Visuals & Stories</p>
+          </div>
+        </div>
+        <div class="link-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </a>
+
+      <!-- YouTube -->
+      <a href="https://www.youtube.com/@maison.evora07" target="_blank" rel="noopener noreferrer" class="link-card yt">
+        <div class="link-left">
+          <div class="icon-box">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+          <div class="link-texts">
+            <h3>YouTube</h3>
+            <p>@maison.evora07 &bull; Videos & Exclusives</p>
+          </div>
+        </div>
+        <div class="link-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@maison.evora6" target="_blank" rel="noopener noreferrer" class="link-card tt">
+        <div class="link-left">
+          <div class="icon-box">
+            <i class="fa-brands fa-tiktok"></i>
+          </div>
+          <div class="link-texts">
+            <h3>TikTok</h3>
+            <p>@maison.evora6 &bull; Reels & Trends</p>
+          </div>
+        </div>
+        <div class="link-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Utilities Section -->
+    <div class="section-title">Quick Tools & Features</div>
+    <div class="utility-grid">
+      <a href="scanner.html" class="util-btn">
+        <i class="fa-solid fa-qrcode"></i>
+        <span>Scan Any QR</span>
+      </a>
+      <a href="qr-studio.html" class="util-btn">
+        <i class="fa-solid fa-print"></i>
+        <span>Print Stand / Flyer</span>
+      </a>
+      <button class="util-btn" onclick="openQrModal()">
+        <i class="fa-solid fa-id-badge"></i>
+        <span>Show My QR</span>
+      </button>
+      <button class="util-btn" onclick="saveContact()">
+        <i class="fa-solid fa-address-card"></i>
+        <span>Save Contact</span>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-logo">Maison Evora</div>
+      <p class="footer-copy">&copy; 2026 Maison Evora. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- QR Code Modal -->
+  <div class="modal-overlay" id="qrModal" onclick="if(event.target === this) closeQrModal()">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeQrModal()">&times;</button>
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 20px;">Maison Evora QR</h3>
+      <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Scan with any phone camera to access all links</p>
+      
+      <div class="qr-preview-box">
+        <img src="maison_evora_qr_with_logo.png" alt="Maison Evora QR Code" id="modalQrImg">
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: center; margin-top: 8px;">
+        <a href="maison_evora_qr_with_logo.png" download="Maison_Evora_QR.png" class="btn-gold">
+          <i class="fa-solid fa-download"></i> Download QR
+        </a>
+        <a href="qr-studio.html" class="btn-gold" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--gold-primary);">
+          <i class="fa-solid fa-sliders"></i> Studio
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg">Link copied to clipboard!</span>
+  </div>
+
+  <script>
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function openQrModal() {
+      document.getElementById('qrModal').classList.add('active');
+    }
+
+    function closeQrModal() {
+      document.getElementById('qrModal').classList.remove('active');
+    }
+
+    function shareProfile() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Maison Evora | Official Social Links',
+          text: 'Connect with Maison Evora across Facebook, Instagram, YouTube, and TikTok:',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast('Page link copied to clipboard!');
+        }).catch(() => {
+          showToast('Link ready to share!');
+        });
+      }
+    }
+
+    function saveContact() {
+      // Create vCard for Maison Evora
+      const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Maison Evora
+ORG:Maison Evora
+TITLE:Luxury Brand
+URL;TYPE=Facebook:https://www.facebook.com/profile.php?id=61595401193073
+URL;TYPE=Instagram:https://www.instagram.com/maison.evora07
+URL;TYPE=YouTube:https://www.youtube.com/@maison.evora07
+URL;TYPE=TikTok:https://www.tiktok.com/@maison.evora6
+NOTE:Official Maison Evora Social & Contact Channels
+END:VCARD`;
+
+      const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Maison_Evora.vcf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Contact card downloaded!');
+    }
+  </script>
+</body>
+</html>

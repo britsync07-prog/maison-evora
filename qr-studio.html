@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison Evora | QR Code Studio & Print Stand</title>
+
+  <meta name="theme-color" content="#032612">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- QRCode.js library for high-speed client-side generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #02170c;
+      --bg-panel: rgba(4, 38, 19, 0.85);
+      --gold-primary: #d4af37;
+      --gold-light: #f7e096;
+      --gold-dark: #aa820a;
+      --text-main: #f9fbf9;
+      --text-muted: #b0c9b9;
+      --border-gold: rgba(212, 175, 55, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #08381c 0%, #02170c 60%, #010a05 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Nav */
+    header {
+      background: rgba(2, 23, 12, 0.95);
+      border-bottom: 1px solid var(--border-gold);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: var(--gold-light);
+      letter-spacing: 2.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav:hover {
+      background: var(--gold-primary);
+      color: #02170c;
+    }
+
+    /* Main Layout */
+    .studio-container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 30px;
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .studio-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Control Sidebar */
+    .control-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      height: fit-content;
+    }
+
+    .panel-title {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      color: var(--gold-light);
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--gold-light);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .preset-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .preset-btn:hover {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      border-color: var(--border-gold);
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .theme-chip {
+      padding: 8px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-size: 11px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .theme-chip.active {
+      border-color: var(--gold-light);
+      box-shadow: 0 0 10px var(--gold-primary);
+    }
+
+    .theme-emerald { background: #032612; color: #f7e096; }
+    .theme-black { background: #000000; color: #ffffff; }
+    .theme-gold { background: #aa820a; color: #02170c; }
+
+    /* Right Preview Section */
+    .preview-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .preview-header-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      background: var(--bg-panel);
+      padding: 12px 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border-gold);
+    }
+
+    .tab-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--gold-primary);
+      color: #02170c;
+    }
+
+    .download-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      color: #02170c;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Flyer / Stand Canvas Card */
+    .display-card-wrap {
+      background: transparent;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .printable-stand {
+      width: 440px;
+      background: #032010;
+      border: 2px solid var(--gold-primary);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.2);
+      text-align: center;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .stand-banner {
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stand-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .stand-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 20%, #032010 100%);
+    }
+
+    .stand-logo-badge {
+      width: 90px;
+      height: 90px;
+      margin: -45px auto 10px;
+      position: relative;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+
+    .stand-logo-badge img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .stand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .stand-subtitle {
+      font-size: 11.5px;
+      letter-spacing: 1px;
+      color: var(--gold-light);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .stand-qr-box {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 18px;
+      display: inline-block;
+      margin: 0 auto 16px;
+      border: 3px solid var(--gold-primary);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    #qr-canvas-holder {
+      width: 220px;
+      height: 220px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #qr-canvas-holder img, #qr-canvas-holder canvas {
+      max-width: 100% !important;
+      height: auto !important;
+      display: block;
+    }
+
+    .qr-center-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: #ffffff;
+      border-radius: 50%;
+      padding: 2px;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+
+    .qr-center-logo img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .stand-scan-prompt {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .stand-footer-icons {
+      border-top: 1px solid rgba(212, 175, 55, 0.25);
+      padding: 14px 20px 20px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .stand-footer-icons p {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .icon-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 18px;
+      color: var(--gold-light);
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      header, .control-panel, .preview-header-bar {
+        display: none !important;
+      }
+      .studio-container {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+      .printable-stand {
+        box-shadow: none !important;
+        margin: 20px auto !important;
+        page-break-inside: avoid;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="brand-title">
+      <i class="fa-solid fa-gem" style="color: var(--gold-primary);"></i>
+      <span>Maison Evora &bull; QR Studio</span>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html" class="btn-nav">
+        <i class="fa-solid fa-house"></i> View Hub
+      </a>
+      <a href="scanner.html" class="btn-nav">
+        <i class="fa-solid fa-camera"></i> QR Scanner
+      </a>
+    </div>
+  </header>
+
+  <div class="studio-container">
+    <!-- Left Configuration Controls -->
+    <div class="control-panel">
+      <div class="panel-title">
+        <i class="fa-solid fa-sliders"></i> QR Code Customizer
+      </div>
+
+      <!-- Quick Preset Buttons -->
+      <div class="form-group">
+        <label class="form-label">Quick Destination Presets</label>
+        <div class="preset-buttons">
+          <button class="preset-btn" onclick="setPreset('fb')">
+            <i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Official Facebook Page
+          </button>
+          <button class="preset-btn" onclick="setPreset('hub')">
+            <i class="fa-solid fa-globe" style="color: var(--gold-primary);"></i> Multi-Link Social Hub
+          </button>
+          <button class="preset-btn" onclick="setPreset('ig')">
+            <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> Official Instagram
+          </button>
+          <button class="preset-btn" onclick="setPreset('yt')">
+            <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> Official YouTube
+          </button>
+          <button class="preset-btn" onclick="setPreset('tt')">
+            <i class="fa-brands fa-tiktok"></i> Official TikTok
+          </button>
+        </div>
+      </div>
+
+      <!-- Custom URL Input -->
+      <div class="form-group">
+        <label class="form-label" for="targetUrl">Encoded URL</label>
+        <input type="text" id="targetUrl" class="form-input" value="https://www.facebook.com/profile.php?id=61595401193073" oninput="regenerateQR()">
+        <p style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">
+          When scanned, users will be taken directly to this address.
+        </p>
+      </div>
+
+      <!-- Color Themes -->
+      <div class="form-group">
+        <label class="form-label">QR Color Theme</label>
+        <div class="theme-grid">
+          <div class="theme-chip theme-emerald active" onclick="setTheme('#032612', '#ffffff', this)">Emerald</div>
+          <div class="theme-chip theme-black" onclick="setTheme('#000000', '#ffffff', this)">Classic</div>
+          <div class="theme-chip theme-gold" onclick="setTheme('#aa820a', '#ffffff', this)">Gold</div>
+        </div>
+      </div>
+
+      <!-- Center Logo Toggle -->
+      <div class="form-group">
+        <label class="form-label">Brand Center Logo</label>
+        <select id="logoToggle" class="form-select" onchange="toggleCenterLogo()">
+          <option value="yes" selected>Show Maison Evora Logo</option>
+          <option value="no">Clean QR (No Logo)</option>
+        </select>
+      </div>
+
+      <!-- Pre-generated Assets Info -->
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; padding: 14px; margin-top: 20px;">
+        <h4 style="font-size: 12.5px; color: var(--gold-light); margin-bottom: 6px;">
+          <i class="fa-solid fa-circle-check" style="color: #38ef7d;"></i> Offline Ready Assets
+        </h4>
+        <p style="font-size: 11.5px; color: var(--text-muted); line-height: 1.4;">
+          High-res PNG files are already generated in your folder:
+          <br>&bull; <code>maison_evora_qr_with_logo.png</code>
+          <br>&bull; <code>maison_evora_flyer.png</code>
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Live Preview Section -->
+    <div class="preview-section">
+      <div class="preview-header-bar">
+        <div class="tab-pills">
+          <button class="tab-btn active" id="tabStand" onclick="switchView('stand')">Table Stand / Card</button>
+          <button class="tab-btn" id="tabPure" onclick="switchView('pure')">QR Code Only</button>
+        </div>
+        <div class="download-btns">
+          <button class="btn-action" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print / PDF
+          </button>
+          <button class="btn-action" onclick="downloadQRCodePNG()">
+            <i class="fa-solid fa-download"></i> Save PNG
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Table Stand / Card -->
+      <div class="display-card-wrap">
+        <div class="printable-stand" id="printableCard">
+          <div class="stand-banner" id="standBanner">
+            <img src="assets/cover.jpg" alt="Maison Evora Cover" onerror="this.src='840005042_122094012459513373_8374363094693261575_n.jpg'">
+            <div class="stand-banner-overlay"></div>
+          </div>
+
+          <div class="stand-logo-badge" id="standLogoBadge">
+            <img src="assets/logo.jpg" alt="Maison Evora Logo" onerror="this.src='839766441_122093932221513373_4620680916063765483_n.jpg'">
+          </div>
+
+          <h2 class="stand-title">MAISON EVORA</h2>
+          <p class="stand-subtitle">CONNECT WITH US ON SOCIAL MEDIA</p>
+
+          <div class="stand-qr-box">
+            <div id="qr-canvas-holder">
+              <!-- QRCode generated here -->
+              <div class="qr-center-logo" id="centerLogoWrap">
+                <img src="assets/logo.jpg" alt="Logo" onerror="this.src='839766441_122093932221513373_4620680916063765483_n.jpg'">
+              </div>
+            </div>
+          </div>
+
+          <div class="stand-scan-prompt">
+            <i class="fa-solid fa-camera"></i>
+            <span>SCAN WITH YOUR PHONE</span>
+          </div>
+
+          <div class="stand-footer-icons" id="standFooter">
+            <p>Facebook &bull; Instagram &bull; YouTube &bull; TikTok</p>
+            <div class="icon-row">
+              <i class="fa-brands fa-facebook"></i>
+              <i class="fa-brands fa-instagram"></i>
+              <i class="fa-brands fa-youtube"></i>
+              <i class="fa-brands fa-tiktok"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let qrColorDark = "#032612";
+    let qrColorLight = "#ffffff";
+    let qrcodeObj = null;
+
+    const URL_PRESETS = {
+      fb: "https://www.facebook.com/profile.php?id=61595401193073",
+      hub: window.location.origin + window.location.pathname.replace("qr-studio.html", "index.html"),
+      ig: "https://www.instagram.com/maison.evora07",
+      yt: "https://www.youtube.com/@maison.evora07",
+      tt: "https://www.tiktok.com/@maison.evora6"
+    };
+
+    function setPreset(key) {
+      document.getElementById('targetUrl').value = URL_PRESETS[key];
+      regenerateQR();
+    }
+
+    function setTheme(dark, light, el) {
+      qrColorDark = dark;
+      qrColorLight = light;
+      document.querySelectorAll('.theme-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      regenerateQR();
+    }
+
+    function toggleCenterLogo() {
+      const show = document.getElementById('logoToggle').value === 'yes';
+      document.getElementById('centerLogoWrap').style.display = show ? 'block' : 'none';
+    }
+
+    function regenerateQR() {
+      const url = document.getElementById('targetUrl').value.trim() || URL_PRESETS.fb;
+      const holder = document.getElementById('qr-canvas-holder');
+      
+      // Preserve center logo
+      const centerLogo = document.getElementById('centerLogoWrap');
+      holder.innerHTML = '';
+      holder.appendChild(centerLogo);
+
+      qrcodeObj = new QRCode(holder, {
+        text: url,
+        width: 220,
+        height: 220,
+        colorDark: qrColorDark,
+        colorLight: qrColorLight,
+        correctLevel: QRCode.CorrectLevel.H // High error correction for center logo support
+      });
+    }
+
+    function switchView(view) {
+      const stand = document.getElementById('printableCard');
+      const banner = document.getElementById('standBanner');
+      const logoBadge = document.getElementById('standLogoBadge');
+      const title = document.querySelector('.stand-title');
+      const sub = document.querySelector('.stand-subtitle');
+      const footer = document.getElementById('standFooter');
+      const prompt = document.querySelector('.stand-scan-prompt');
+
+      document.getElementById('tabStand').classList.toggle('active', view === 'stand');
+      document.getElementById('tabPure').classList.toggle('active', view === 'pure');
+
+      if (view === 'pure') {
+        banner.style.display = 'none';
+        logoBadge.style.display = 'none';
+        title.style.display = 'none';
+        sub.style.display = 'none';
+        footer.style.display = 'none';
+        prompt.style.display = 'none';
+        stand.style.width = '290px';
+        stand.style.padding = '24px 0';
+      } else {
+        banner.style.display = 'block';
+        logoBadge.style.display = 'block';
+        title.style.display = 'block';
+        sub.style.display = 'block';
+        footer.style.display = 'block';
+        prompt.style.display = 'flex';
+        stand.style.width = '440px';
+        stand.style.padding = '0';
+      }
+    }
+
+    function downloadQRCodePNG() {
+      const canvas = document.querySelector('#qr-canvas-holder canvas');
+      if (!canvas) {
+        // Fallback to pre-rendered image
+        const a = document.createElement('a');
+        a.href = 'maison_evora_qr_with_logo.png';
+        a.download = 'Maison_Evora_QR.png';
+        a.click();
+        return;
+      }
+
+      // If user has center logo enabled, draw it on high-res canvas
+      const showLogo = document.getElementById('logoToggle').value === 'yes';
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = 1000;
+      exportCanvas.height = 1000;
+      const ctx = exportCanvas.getContext('2d');
+
+      // Draw QR scaled up
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(canvas, 0, 0, 1000, 1000);
+
+      if (showLogo) {
+        const logoImg = new Image();
+        logoImg.onload = () => {
+          const logoSize = 240;
+          const x = (1000 - logoSize) / 2;
+          const y = (1000 - logoSize) / 2;
+
+          // White circular backing
+          ctx.beginPath();
+          ctx.arc(500, 500, 130, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+          ctx.lineWidth = 10;
+          ctx.strokeStyle = '#d4af37';
+          ctx.stroke();
+
+          // Clip logo into circle
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(500, 500, 115, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(logoImg, x, y, logoSize, logoSize);
+          ctx.restore();
+
+          const link = document.createElement('a');
+          link.download = 'Maison_Evora_HighRes_QR.png';
+          link.href = exportCanvas.toDataURL('image/png');
+          link.click();
+        };
+        logoImg.src = 'assets/logo.jpg';
+      } else {
+        const link = document.createElement('a');
+        link.download = 'Maison_Evora_HighRes_QR.png';
+        link.href = exportCanvas.toDataURL('image/png');
+        link.click();
+      }
+    }
+
+    // Initial QR render
+    window.addEventListener('load', () => {
+      regenerateQR();
+    });
+  </script>
+</body>
+</html>

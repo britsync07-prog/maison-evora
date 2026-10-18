@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Maison Evora | Smart QR Scanner</title>
+  
+  <meta name="theme-color" content="#032612">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- HTML5 QR Code Scanner Library (Reliable & Works without installation) -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #02170c;
+      --bg-card: rgba(4, 38, 19, 0.85);
+      --gold-primary: #d4af37;
+      --gold-light: #f7e096;
+      --text-main: #f9fbf9;
+      --text-muted: #b0c9b9;
+      --border-gold: rgba(212, 175, 55, 0.4);
+      --laser-green: #38ef7d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #08381c 0%, #02170c 60%, #010a05 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0 20px;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--gold-primary);
+      color: #02170c;
+    }
+
+    .header-title {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    /* Scanner Viewport */
+    .scanner-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 24px;
+      padding: 20px 16px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .viewport-box {
+      width: 100%;
+      max-width: 340px;
+      height: 340px;
+      margin: 0 auto 16px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: #000000;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+    }
+
+    #qr-reader {
+      width: 100% !important;
+      height: 100% !important;
+      border: none !important;
+    }
+
+    #qr-reader video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    /* Reticle & Animated Scan Laser */
+    .scanner-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .reticle-frame {
+      width: 220px;
+      height: 220px;
+      position: relative;
+    }
+
+    .reticle-corner {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-color: var(--gold-light);
+      border-style: solid;
+    }
+
+    .reticle-corner.tl { top: 0; left: 0; border-width: 4px 0 0 4px; border-top-left-radius: 8px; }
+    .reticle-corner.tr { top: 0; right: 0; border-width: 4px 4px 0 0; border-top-right-radius: 8px; }
+    .reticle-corner.bl { bottom: 0; left: 0; border-width: 0 0 4px 4px; border-bottom-left-radius: 8px; }
+    .reticle-corner.br { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-bottom-right-radius: 8px; }
+
+    .laser-line {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #38ef7d, #ffffff, #38ef7d, transparent);
+      box-shadow: 0 0 12px #38ef7d;
+      animation: scanLaser 2.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes scanLaser {
+      0% { top: 15px; opacity: 0.8; }
+      100% { top: 205px; opacity: 0.8; }
+    }
+
+    /* Scanner Controls */
+    .scanner-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .ctrl-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .ctrl-btn:hover {
+      background: var(--gold-primary);
+      color: #02170c;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    /* Result Modal / Overlay */
+    .result-sheet {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-primary);
+      border-radius: 24px;
+      padding: 24px 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(212, 175, 55, 0.3);
+      display: none;
+      animation: slideUp 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .result-sheet.active {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .success-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(56, 239, 125, 0.2);
+      border: 1px solid #38ef7d;
+      color: #38ef7d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .result-title h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .result-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .detected-url-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 14px;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 12.5px;
+      color: var(--gold-light);
+      margin-bottom: 18px;
+    }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-main {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), #aa820a);
+      color: #02170c;
+      font-weight: 700;
+      padding: 14px;
+      border-radius: 14px;
+      text-decoration: none;
+      text-align: center;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-gold);
+      color: #fff;
+      font-weight: 600;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Direct Social Menu inside scanner */
+    .quick-socials {
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      padding-top: 16px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .quick-socials p {
+      font-size: 11.5px;
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .social-pills {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .social-pill {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #ffffff;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+
+    .social-pill:hover {
+      transform: translateY(-2px) scale(1.08);
+    }
+
+    .social-pill.fb { background: #1877f2; }
+    .social-pill.ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+    .social-pill.yt { background: #ff0000; }
+    .social-pill.tt { background: #000000; border: 1px solid rgba(255,255,255,0.3); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #d4af37;
+      color: #031c0e;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 13px;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <a href="index.html" class="back-btn" title="Back to Hub">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <div class="header-title">Maison Evora Scanner</div>
+      <a href="qr-studio.html" class="back-btn" title="QR Studio">
+        <i class="fa-solid fa-qrcode"></i>
+      </a>
+    </header>
+
+    <!-- Main Scanner Box -->
+    <div class="scanner-card" id="scannerCard">
+      <div class="viewport-box">
+        <div id="qr-reader"></div>
+        <div class="scanner-overlay">
+          <div class="reticle-frame">
+            <span class="reticle-corner tl"></span>
+            <span class="reticle-corner tr"></span>
+            <span class="reticle-corner bl"></span>
+            <span class="reticle-corner br"></span>
+            <div class="laser-line"></div>
+          </div>
+        </div>
+      </div>
+
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">
+        Point camera at any QR code or upload an image
+      </p>
+
+      <div class="scanner-controls">
+        <label for="file-input" class="ctrl-btn">
+          <i class="fa-solid fa-image"></i> Scan from Gallery
+        </label>
+        <input type="file" id="file-input" accept="image/*">
+
+        <button class="ctrl-btn" id="btnToggleCamera" onclick="switchCamera()">
+          <i class="fa-solid fa-camera-rotate"></i> Flip Camera
+        </button>
+      </div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="result-sheet" id="resultSheet">
+      <div class="result-header">
+        <div class="success-icon">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <div class="result-title">
+          <h3 id="resultHeading">QR Code Detected!</h3>
+          <p id="resultSub">Ready to open destination</p>
+        </div>
+      </div>
+
+      <div class="detected-url-box" id="detectedUrl">
+        https://...
+      </div>
+
+      <div class="actions-grid">
+        <a href="#" id="btnOpenLink" target="_blank" rel="noopener noreferrer" class="btn-main">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Destination
+        </a>
+        <button class="btn-secondary" onclick="copyResult()">
+          <i class="fa-solid fa-copy"></i> Copy Link
+        </button>
+        <button class="btn-secondary" onclick="restartScanner()">
+          <i class="fa-solid fa-arrows-rotate"></i> Scan Another
+        </button>
+      </div>
+
+      <!-- Quick Social Buttons -->
+      <div class="quick-socials">
+        <p>OR EXPLORE MAISON EVORA CHANNELS</p>
+        <div class="social-pills">
+          <a href="https://www.facebook.com/profile.php?id=61595401193073" target="_blank" class="social-pill fb" title="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com/maison.evora07" target="_blank" class="social-pill ig" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://www.youtube.com/@maison.evora07" target="_blank" class="social-pill yt" title="YouTube">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+          <a href="https://www.tiktok.com/@maison.evora6" target="_blank" class="social-pill tt" title="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script>
+    let html5QrCode = null;
+    let currentCameraFacing = "environment"; // rear camera by default
+    let isScanning = false;
+
+    function playBeep() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.15);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.15);
+      } catch (e) {
+        // AudioContext not allowed or muted
+      }
+
+      if (navigator.vibrate) {
+        navigator.vibrate([60, 40, 60]);
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+      if (!isScanning) return;
+      isScanning = false;
+      playBeep();
+
+      if (html5QrCode) {
+        html5QrCode.pause();
+      }
+
+      displayResult(decodedText);
+    }
+
+    function displayResult(url) {
+      const resultSheet = document.getElementById('resultSheet');
+      const detectedUrl = document.getElementById('detectedUrl');
+      const btnOpenLink = document.getElementById('btnOpenLink');
+      const resultHeading = document.getElementById('resultHeading');
+      const resultSub = document.getElementById('resultSub');
+
+      detectedUrl.textContent = url;
+      btnOpenLink.href = url.startsWith('http://') || url.startsWith('https://') ? url : 'https://' + url;
+
+      if (url.includes('facebook.com')) {
+        resultHeading.textContent = "Facebook Link Found!";
+        resultSub.textContent = "Connect with Maison Evora on Facebook";
+      } else if (url.includes('instagram.com')) {
+        resultHeading.textContent = "Instagram Profile Found!";
+        resultSub.textContent = "Explore stories and photos";
+      } else if (url.includes('youtube.com')) {
+        resultHeading.textContent = "YouTube Channel Found!";
+        resultSub.textContent = "Watch videos and tutorials";
+      } else if (url.includes('tiktok.com')) {
+        resultHeading.textContent = "TikTok Profile Found!";
+        resultSub.textContent = "Watch trends and reels";
+      } else {
+        resultHeading.textContent = "Link Detected!";
+        resultSub.textContent = "Ready to browse";
+      }
+
+      resultSheet.classList.add('active');
+    }
+
+    function copyResult() {
+      const text = document.getElementById('detectedUrl').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Link copied to clipboard!");
+      });
+    }
+
+    function restartScanner() {
+      document.getElementById('resultSheet').classList.remove('active');
+      isScanning = true;
+      if (html5QrCode) {
+        html5QrCode.resume();
+      }
+    }
+
+    function startCamera(facingMode) {
+      html5QrCode = new Html5Qrcode("qr-reader");
+      const config = {
+        fps: 15,
+        qrbox: { width: 220, height: 220 },
+        aspectRatio: 1.0
+      };
+
+      html5QrCode.start(
+        { facingMode: facingMode },
+        config,
+        onScanSuccess
+      ).then(() => {
+        isScanning = true;
+      }).catch(err => {
+        console.warn("Camera start failed, fallback to environment selection:", err);
+        // Fallback to default camera
+        Html5Qrcode.getCameras().then(cameras => {
+          if (cameras && cameras.length) {
+            const cameraId = cameras[cameras.length - 1].id;
+            html5QrCode.start(cameraId, config, onScanSuccess).then(() => {
+              isScanning = true;
+            });
+          }
+        }).catch(e => {
+          console.error("No cameras available:", e);
+        });
+      });
+    }
+
+    function switchCamera() {
+      if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+          currentCameraFacing = currentCameraFacing === "environment" ? "user" : "environment";
+          startCamera(currentCameraFacing);
+        }).catch(() => {
+          currentCameraFacing = currentCameraFacing === "environment" ? "user" : "environment";
+          startCamera(currentCameraFacing);
+        });
+      }
+    }
+
+    // Handle Gallery File upload
+    document.getElementById('file-input').addEventListener('change', e => {
+      if (e.target.files.length === 0) return;
+      const file = e.target.files[0];
+      
+      const fileScanner = new Html5Qrcode("qr-reader");
+      fileScanner.scanFile(file, true)
+        .then(decodedText => {
+          playBeep();
+          displayResult(decodedText);
+        })
+        .catch(err => {
+          showToast("No QR code found in selected image.");
+        });
+    });
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      startCamera(currentCameraFacing);
+    });
+  </script>
+</body>
+</html>
